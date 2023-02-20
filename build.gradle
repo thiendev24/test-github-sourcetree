@@ -1,0 +1,74 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.7'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+}
+
+group 'vn.sapo'
+version '1.0'
+allprojects { proj ->
+
+
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+    //so that we can use 'compile', 'testCompile' for dependencies
+    repositories {
+        mavenCentral()
+    }
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.7.7")
+        }
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    dependencies {
+        switch (proj.name) {
+            case 'sapo-shared': break
+            case 'sapo-entity': break
+            case 'sapo-address': {
+                implementation project(':sapo-entity')
+                implementation project(':sapo-shared')
+                break
+            }
+            case 'sapo-web':
+            default: {
+                if (proj.name != 'sapo-web')
+                    implementation project(':sapo-entity')
+                implementation project(':sapo-shared')
+                implementation project(':sapo-address')
+                break
+            }
+        }
+
+
+        implementation "org.springframework.boot:spring-boot-starter-web"
+        implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+        implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+        implementation "org.springframework.boot:spring-boot-starter-validation"
+        runtimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
+        testImplementation "org.springframework.boot:spring-boot-starter-test"
+        testImplementation "com.h2database:h2"
+
+        compileOnly "org.projectlombok:lombok"
+        annotationProcessor "org.projectlombok:lombok"
+
+        implementation 'org.modelmapper:modelmapper:3.1.1'
+        implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.1'
+        implementation 'com.vladmihalcea:hibernate-types-52:2.21.1'
+        runtimeOnly 'mysql:mysql-connector-java'
+        implementation 'com.jayway.jsonpath:json-path:2.4.0'
+
+    }
+    test {
+        useJUnitPlatform()
+    }
+    ext {
+        jjwt_version = "0.11.5"
+    }
+}

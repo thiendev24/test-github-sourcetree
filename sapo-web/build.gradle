@@ -1,0 +1,31 @@
+plugins {
+    id "war"
+    id "java"
+
+}
+
+group = 'vn.sapo'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':sapo-customer')
+    implementation project(':sapo-configuration')
+    implementation project(':sapo-product')
+    implementation project(':sapo-supplier')
+    implementation project(':sapo-payment')
+    implementation project(':sapo-order')
+    implementation project(':sapo-employee')
+
+//    testImplementation("com.squareup.okhttp3:okhttp:4.10.0")
+    testImplementation project(':sapo-address').sourceSets.test.output
+    testImplementation 'org.projectlombok:lombok:1.18.22'
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.8'
+
+
+}
