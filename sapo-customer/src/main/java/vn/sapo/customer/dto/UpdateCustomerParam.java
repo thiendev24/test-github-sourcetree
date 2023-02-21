@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import vn.sapo.entities.customer.CustomerGender;
-import vn.sapo.entities.customer.CustomerStatus;
+//import vn.sapo.entities.customer.CustomerGender;
+//import vn.sapo.entities.customer.CustomerStatus;
 
 import java.util.Date;
 

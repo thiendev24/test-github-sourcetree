@@ -24,8 +24,5 @@ dependencies {
     testImplementation project(':sapo-address').sourceSets.test.output
     testImplementation 'org.projectlombok:lombok:1.18.22'
     developmentOnly "org.springframework.boot:spring-boot-devtools"
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.8'
-
 
 }

@@ -47,7 +47,6 @@ public class CustomerAPI {
     @GetMapping
     public ResponseEntity<?> findAll() {
         List<CustomerResult> customers = customerService.findAll();
-        System.out.println(customers.get(0));
         customers.forEach(this::setData);
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
@@ -92,9 +91,10 @@ public class CustomerAPI {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteCustomerById(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteCustomerById(@PathVariable Integer id) {
         addressService.deleteByCustomerId(id);
         customerService.deleteById(id);
+        return new ResponseEntity<>("Delete success", HttpStatus.OK);
     }
 
     @PostMapping("/create")
