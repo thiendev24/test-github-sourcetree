@@ -35,7 +35,6 @@ public class ExcelHelper {
         if (!TYPE.equals(file.getContentType())) {
             return false;
         }
-
         return true;
     }
 
@@ -69,11 +68,9 @@ public class ExcelHelper {
                 address.setDistrictId(-1);
                 address.setWardId(-1);
 
-
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
                     Cell currentCell = cellsInRow.next();
-
                     switch (cellIdx) {
                         case 0:
                             customer.setFullName(currentCell.getStringCellValue());

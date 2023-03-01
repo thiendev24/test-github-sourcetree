@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import vn.sapo.entities.supplier.SupplierGroup;
 import vn.sapo.supplierGroup.dto.CreateSupGroupParam;
+import vn.sapo.supplierGroup.dto.UpdateSupGroupParam;
 import vn.sapo.supplierGroup.dto.SupplierGroupResult;
 
 @Component
@@ -18,5 +19,10 @@ public class SupplierGroupMapper {
 
     public SupplierGroupResult toDTO(SupplierGroup supplierGroup) {
         return modelMapper.map(supplierGroup, SupplierGroupResult.class);
+    }
+
+
+    public void transferFields(UpdateSupGroupParam updateSupGroupParam, SupplierGroup supplierGroup) {
+        modelMapper.map(updateSupGroupParam, supplierGroup);
     }
 }

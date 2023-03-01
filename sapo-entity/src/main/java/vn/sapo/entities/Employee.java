@@ -8,12 +8,12 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import java.time.Instant;
 
-@Entity
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name = "employee")
 @Accessors(chain = true)
+@Entity
+@Table(name = "employee")
 public class Employee extends BaseEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -37,5 +37,17 @@ public class Employee extends BaseEntity {
 
     public Employee(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", birthday=" + birthday +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }

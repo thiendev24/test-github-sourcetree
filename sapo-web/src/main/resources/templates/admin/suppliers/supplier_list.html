@@ -12,7 +12,7 @@
 
 
 </head>
-
+<!--<th:block th:replace="/admin/suppliers/modals/import_file.html" />-->
 <body class="body_dashboard partners suppliers index">
 <div id="container">
     <div class="hidden" context="tenantInfo"
@@ -93,7 +93,7 @@
                         <a href="/admin/suppliers/create" class="btn sapo-btn-default">Thêm nhà cung cấp</a>
 
                         <th:block th:replace="/layout/supplier/style :: style"></th:block>
-
+                        <th:block th:replace="/layout/script :: script"></th:block>
                     </div>
                 </div>
 
@@ -1166,8 +1166,8 @@
 <script>
     const page = {
         urls: {
-            getAllSupplier: App.PRODUCT_API,
-            getAllEmployee: App.EMPLOYEE_API,
+            getAllSupplier: SupplierApp.PRODUCT_API,
+            getAllEmployee: SupplierApp.EMPLOYEE_API,
         },
         elements: {},
         commands: {},
@@ -1209,6 +1209,18 @@
 
 </script>
 
-</body>
+<script>
+    $(".import_product").on("click", () => {
+        alert("hello")
+    })
+</script>
 
+<script>
+    $(".export_product").on("click",() => {
+        alert("chao xìn")
+    })
+</script>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </html>

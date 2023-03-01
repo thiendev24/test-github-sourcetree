@@ -5,19 +5,17 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import vn.sapo.entities.supplier.SupplierStatus;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @Accessors(chain = true)
-public class UpdateSupplierParam {
+public class UpdateSupplierParam extends BaseSupplierParam {
+    @NotNull
     private Integer id;
+    @NotBlank(message = "supplierCode not blank")
     private String supplierCode;
-    private String name;
-    private String email;
-    private String phone;
-    private String description;
-    private Integer paymentMethodId;
-    private Integer supGroupId;
-    private Integer employeeId;
     private SupplierStatus status;
 
 }

@@ -22,7 +22,5 @@ dependencies {
 
 //    testImplementation("com.squareup.okhttp3:okhttp:4.10.0")
     testImplementation project(':sapo-address').sourceSets.test.output
-    testImplementation 'org.projectlombok:lombok:1.18.22'
     developmentOnly "org.springframework.boot:spring-boot-devtools"
-
 }

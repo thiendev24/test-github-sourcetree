@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 public class AddressResult {
 
     private Integer id;
+    private String label;
 
     private String fullName;
 
@@ -43,27 +44,4 @@ public class AddressResult {
     private boolean isShipping;
 
     private boolean isReceiveBill;
-
-    @Override
-    public String toString() {
-        return "AddressResult{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", customerId=" + customerId +
-                ", supplierId=" + supplierId +
-                ", line1='" + line1 + '\'' +
-                ", line2='" + line2 + '\'' +
-                ", wardId=" + wardId +
-                ", wardName='" + wardName + '\'' +
-                ", districtId=" + districtId +
-                ", districtName='" + districtName + '\'' +
-                ", provinceId=" + provinceId +
-                ", provinceName='" + provinceName + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", isShipping=" + isShipping +
-                ", isReceiveBill=" + isReceiveBill +
-                '}';
-    }
 }

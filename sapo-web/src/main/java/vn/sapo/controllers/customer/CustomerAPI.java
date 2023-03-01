@@ -16,7 +16,7 @@ import vn.sapo.customer.dto.*;
 import vn.sapo.customerGroup.CustomerGroupService;
 import vn.sapo.excel.ExcelHelper;
 import vn.sapo.excel.ExcelService;
-import vn.sapo.excel.ResponseMessage;
+import vn.sapo.supplier.excel.ResponseMessage;
 import vn.sapo.order.sale.SaleOrderService;
 import vn.sapo.order.sale.item.OrderItemService;
 import vn.sapo.payment.sale.PaymentSaleOrderService;
@@ -40,9 +40,9 @@ public class CustomerAPI {
     @Autowired
     SaleOrderService saleOrderService;
     @Autowired
-    ExcelService excelService;
-    @Autowired
     CustomerGroupService customerGroupService;
+    @Autowired
+    ExcelService excelService;
 
     @GetMapping
     public ResponseEntity<?> findAll() {
@@ -91,15 +91,13 @@ public class CustomerAPI {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCustomerById(@PathVariable Integer id) {
+    public void deleteCustomerById(@PathVariable Integer id) {
         addressService.deleteByCustomerId(id);
         customerService.deleteById(id);
-        return new ResponseEntity<>("Delete success", HttpStatus.OK);
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody CreateCustomerParam createCustomerParam) {
-
         CustomerResult dto = customerService.create(createCustomerParam);
         CreateAddressParam createAddressParam = createCustomerParam.getCreateAddressParam();
 

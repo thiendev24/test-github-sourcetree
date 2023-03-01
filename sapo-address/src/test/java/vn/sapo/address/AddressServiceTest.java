@@ -111,15 +111,14 @@ public class AddressServiceTest {
     @Test
     public void testFindByCustomerId() {
         List<AddressResult> dtoList = addressService.findByCustomerId(2);
-
         assertAddress(dtoList.get(0), addresses.get(2));
-//        assertAddress(dtoList.get(1), addresses.get(3));
-//        try {
-//            addressService.findByCustomerId(7);
-//        } catch (Exception e) {
-//            assertThat(e, instanceOf(IndexOutOfBoundsException.class));
-//            assertEquals(e.getMessage(), "Customer not found");
-//        }
+        assertAddress(dtoList.get(1), addresses.get(3));
+        try {
+            addressService.findByCustomerId(7);
+        } catch (Exception e) {
+            assertThat(e, instanceOf(IndexOutOfBoundsException.class));
+            assertEquals(e.getMessage(), "Customer not found");
+        }
     }
 
 

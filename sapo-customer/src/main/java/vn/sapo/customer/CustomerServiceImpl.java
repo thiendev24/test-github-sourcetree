@@ -17,6 +17,7 @@ import vn.sapo.shared.configurations.CodePrefix;
 import vn.sapo.shared.exceptions.DataInputException;
 import vn.sapo.shared.exceptions.NotFoundException;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,13 +74,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional
     public CustomerResult create(CreateCustomerParam createCustomerParam) {
-        Customer customer = customerMapper.toModel(createCustomerParam);
-        Customer newCustomer = customerRepository.save(customer);
-        String cusCode = newCustomer.getCustomerCode();
-        //TODO: save DB roi getFullName ko dc de trong la sao?
+        Instant birthday = createCustomerParam.getBirthday().toInstant();
         if(createCustomerParam.getFullName()==null){
             throw new DataInputException("Tên khách hàng không được để trống");
         }
+        Customer customer = customerMapper.toModel(createCustomerParam);
+        customer.setBirthday(birthday);
+
+        Customer newCustomer = customerRepository.save(customer);
+        String cusCode = newCustomer.getCustomerCode();
         if (cusCode == null || cusCode.trim().isEmpty())
             customer.setCustomerCode(CodePrefix.CUSTOMER.generate(customer.getId()));
         return customerMapper.toDTO(customer);

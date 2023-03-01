@@ -42,6 +42,7 @@ public class SupplierAPITest {
                         .setSupplierCode("SPL0001")
 //                        .setPaymentMethodId()
                         .setSupplierCode("1234")
+
                 );
     }
     @BeforeEach

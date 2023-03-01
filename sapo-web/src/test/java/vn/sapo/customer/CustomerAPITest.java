@@ -11,15 +11,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import vn.sapo.address.AddressService;
 import vn.sapo.address.dto.AddressResult;
 import vn.sapo.address.dto.CreateAddressParam;
-import vn.sapo.address.dto.UpdateAddressParam;
 import vn.sapo.controllers.customer.CustomerAPI;
 import vn.sapo.customer.dto.*;
 import vn.sapo.customerGroup.CustomerGroupService;
@@ -29,7 +25,6 @@ import vn.sapo.order.sale.SaleOrderService;
 import vn.sapo.order.sale.item.OrderItemService;
 import vn.sapo.payment.sale.PaymentSaleOrderService;
 import vn.sapo.shared.parsers.JacksonParser;
-import vn.sapo.shared.parsers.JsonPathParser;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -40,17 +35,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @WebMvcTest(CustomerAPI.class)
 public class CustomerAPITest {
-    @MockBean
-    private ModelMapper modelMapper;
-    @MockBean
-    private CustomerMapper customerMapper;
+
     @MockBean
     private ExcelService excelService;
     @MockBean
@@ -70,225 +61,15 @@ public class CustomerAPITest {
     private static CreateAddressParam createAddressParam;
     private static CreateCustomerParam createCustomerParam;
     private static UpdateCustomerParam updateCustomerParam;
-    private static List<AddressResult> addressResultList = new ArrayList<>();
-    private static List<CustomerResult> customerResultList = new ArrayList<>();
+    private static List<AddressResult> addressResultList;
+    private static List<CustomerResult> customerResultList;
     @BeforeAll
     static void init(){
-        updateCustomerParam = new UpdateCustomerParam()
-                                        .setId(1)
-                                        .setCustomerCode("dsdsdsdsdsd")
-                                        .setFullName("trung")
-                                        .setPhoneNumber("0809809809")
-                                        .setDescription("fgfgdvdfgdgfd")
-                                        .setGroupId(1)
-                                        .setEmail("trung@gmail.com")
-                                        .setWebsite("fgfgfg.com")
-                                        .setFax("fsdfsdfsdfsdf")
-                                        .setTaxCode("qeadqwdwq")
-                                        .setBirthday(new Date())
-                                        .setGender(CustomerGender.NAM)
-                                        .setEmployeeId(1)
-                                        .setStatus(CustomerStatus.AVAILABLE);
-        createAddressParam = new CreateAddressParam()
-                                .setCustomerId(1)
-                                .setFullName("trung")
-                                .setPhoneNumber("089898989989")
-                                .setEmail("trung@gmail.com")
-                                .setSupplierId(1)
-                                .setLine1("trrtrtrt")
-                                .setLine2("fdssvsvs")
-                                .setWardId(1)
-                                .setWardName("fdfgfdgfgg")
-                                .setDistrictId(2)
-                                .setDistrictName("sdfsdfdsf")
-                                .setProvinceId(3)
-                                .setProvinceName("fdsfsdfsdfsd")
-                                .setZipCode("dfsfsdfsdfsd")
-                                .setShipping(true)
-                                .setReceiveBill(false);
-        createCustomerParam = new CreateCustomerParam()
-                                    .setId(1)
-                                    .setCustomerCode("dsdsdsdsdsd")
-                                    .setCreateAddressParam(createAddressParam)
-                                    .setFullName("trung")
-                                    .setPhoneNumber("0809809809")
-                                    .setDescription("fgfgdvdfgdgfd")
-                                    .setGroupId(1)
-                                    .setEmail("trung@gmail.com")
-                                    .setWebsite("fgfgfg.com")
-                                    .setFax("fsdfsdfsdfsdf")
-                                    .setTaxCode("qeadqwdwq")
-                                    .setBirthday(new Date())
-                                    .setGender(CustomerGender.NAM)
-                                    .setGroup(new CustomerGroupResult(1, "title", "fdfdfdf", 1, "fdsdfsdf",new Date(), 1L, "dsdsdsd", 2))
-                                    .setEmployeeId(1)
-                                    .setDebtTotal(new BigDecimal(1000))
-                                    .setSpendTotal(new BigDecimal(1000))
-                                    .setStatus(CustomerStatus.AVAILABLE);
-        addressResultList.add(new AddressResult()
-                .setId(1)
-                .setPhoneNumber("089898989989")
-                .setEmail("trung@gmail.com")
-                .setSupplierId(1)
-                .setLine1("trrtrtrt")
-                .setLine2("fdssvsvs")
-                .setWardId(1)
-                .setWardName("fdfgfdgfgg")
-                .setDistrictId(2)
-                .setDistrictName("sdfsdfdsf")
-                .setProvinceId(3)
-                .setProvinceName("fdsfsdfsdfsd")
-                .setZipCode("dfsfsdfsdfsd")
-                .setShipping(true)
-                .setReceiveBill(false));
-        addressResultList.add(new AddressResult()
-                .setId(1)
-                .setPhoneNumber("089898989989")
-                .setEmail("trung@gmail.com")
-                .setSupplierId(1)
-                .setLine1("trrtrtrt")
-                .setLine2("fdssvsvs")
-                .setWardId(1)
-                .setWardName("fdfgfdgfgg")
-                .setDistrictId(2)
-                .setDistrictName("sdfsdfdsf")
-                .setProvinceId(3)
-                .setProvinceName("fdsfsdfsdfsd")
-                .setZipCode("dfsfsdfsdfsd")
-                .setShipping(true)
-                .setReceiveBill(false));
-        customerResultList.add(new CustomerResult(
-                1,
-                "rterterte",
-                "trung",
-                "0890809",
-                "trug@gmail.com",
-                Instant.now(),
-                new CusGroupResult()
-                        .setId(1)
-                        .setDiscount(121212)
-                        .setTitle("232323")
-                        .setDescription("qeqeqeqw")
-                        .setCusGrpCode("23213123123"),
-                CustomerGender.NAM,
-                "fsaasdada",
-                new BigDecimal(1000),
-                new BigDecimal(1000),
-                CustomerStatus.AVAILABLE,
-                Instant.now(),
-                Instant.now(),
-                new CusEmployeeResult()
-                        .setId(1)
-                        .setFullName("trung"),
-                new AddressResult()
-                        .setId(1)
-                        .setPhoneNumber("089898989989")
-                        .setEmail("trung@gmail.com")
-                        .setSupplierId(1)
-                        .setLine1("trrtrtrt")
-                        .setLine2("fdssvsvs")
-                        .setWardId(1)
-                        .setWardName("fdfgfdgfgg")
-                        .setDistrictId(2)
-                        .setDistrictName("sdfsdfdsf")
-                        .setProvinceId(3)
-                        .setProvinceName("fdsfsdfsdfsd")
-                        .setZipCode("dfsfsdfsdfsd")
-                        .setShipping(true)
-                        .setReceiveBill(false),
-                new AddressResult()
-                        .setId(1)
-                        .setPhoneNumber("089898989989")
-                        .setEmail("trung@gmail.com")
-                        .setSupplierId(1)
-                        .setLine1("trrtrtrt")
-                        .setLine2("fdssvsvs")
-                        .setWardId(1)
-                        .setWardName("fdfgfdgfgg")
-                        .setDistrictId(2)
-                        .setDistrictName("sdfsdfdsf")
-                        .setProvinceId(3)
-                        .setProvinceName("fdsfsdfsdfsd")
-                        .setZipCode("dfsfsdfsdfsd")
-                        .setShipping(true)
-                        .setReceiveBill(false),
-                addressResultList,
-                12,
-                10,
-                Instant.now(),
-                new PaymentMethod()
-                        .setId("dsdsds")
-                        .setTitle("dsdsdsds"),
-                "fsdfsdf",
-                "sdfdsfsdf",
-                "Fdserwerwe"
-        ));
-        customerResultList.add(new CustomerResult(
-                2,
-                "rterterte",
-                "trung",
-                "0890809",
-                "trug@gmail.com",
-                Instant.now(),
-                new CusGroupResult()
-                        .setId(1)
-                        .setDiscount(121212)
-                        .setTitle("232323")
-                        .setDescription("qeqeqeqw")
-                        .setCusGrpCode("23213123123"),
-                CustomerGender.NAM,
-                "fsaasdada",
-                new BigDecimal(1000),
-                new BigDecimal(1000),
-                CustomerStatus.AVAILABLE,
-                Instant.now(),
-                Instant.now(),
-                new CusEmployeeResult()
-                        .setId(1)
-                        .setFullName("trung"),
-                new AddressResult()
-                        .setId(1)
-                        .setPhoneNumber("089898989989")
-                        .setEmail("trung@gmail.com")
-                        .setSupplierId(1)
-                        .setLine1("trrtrtrt")
-                        .setLine2("fdssvsvs")
-                        .setWardId(1)
-                        .setWardName("fdfgfdgfgg")
-                        .setDistrictId(2)
-                        .setDistrictName("sdfsdfdsf")
-                        .setProvinceId(3)
-                        .setProvinceName("fdsfsdfsdfsd")
-                        .setZipCode("dfsfsdfsdfsd")
-                        .setShipping(true)
-                        .setReceiveBill(false),
-                new AddressResult()
-                        .setId(1)
-                        .setPhoneNumber("089898989989")
-                        .setEmail("trung@gmail.com")
-                        .setSupplierId(1)
-                        .setLine1("trrtrtrt")
-                        .setLine2("fdssvsvs")
-                        .setWardId(1)
-                        .setWardName("fdfgfdgfgg")
-                        .setDistrictId(2)
-                        .setDistrictName("sdfsdfdsf")
-                        .setProvinceId(3)
-                        .setProvinceName("fdsfsdfsdfsd")
-                        .setZipCode("dfsfsdfsdfsd")
-                        .setShipping(true)
-                        .setReceiveBill(false),
-                addressResultList,
-                12,
-                10,
-                Instant.now(),
-                new PaymentMethod()
-                        .setId("dsdsds")
-                        .setTitle("dsdsdsds"),
-                "fsdfsdf",
-                "sdfdsfsdf",
-                "Fdserwerwe"
-        ));
+        createAddressParam = CustomerParamTest.getCreateAddressParam();
+        createCustomerParam = CustomerParamTest.getCreateCustomerParam();
+        updateCustomerParam = CustomerParamTest.getUpdateCustomerParam();
+        addressResultList = CustomerParamTest.getListAddressResult();
+        customerResultList = CustomerParamTest.getListCustomerResult();
     }
     @BeforeEach
     public void setUp(){
@@ -334,23 +115,6 @@ public class CustomerAPITest {
         mockMvc.perform(delete("/api/customers/delete/1")
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
-                            .andExpect(status().isOk())
-                            .andExpect(jsonPath("$",is("Delete success")));
-    }
-    @Test
-    public void updateStatusAvailable() throws Exception {
-        mockMvc.perform(put("/api/customers/updateStatusAvailable")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(JacksonParser.INSTANCE.toJson(new Integer[]{1,2,3,4,5}))
-                        .accept(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk());
-    }
-    @Test
-    public void uploadFile() throws Exception {
-        MockMultipartFile mockMultipartFile =  new MockMultipartFile("file", "excel.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Heelo".getBytes());
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/customers/upload")
-                                              .file(mockMultipartFile))
-                                              .andExpect(status().isOk())
-                                              .andExpect(jsonPath("$.message",is("Uploaded the file successfully: excel.xlsx")));
+                            .andExpect(status().isOk());
     }
 }

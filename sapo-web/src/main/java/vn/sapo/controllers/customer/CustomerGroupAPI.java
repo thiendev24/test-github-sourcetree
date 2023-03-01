@@ -11,6 +11,7 @@ import vn.sapo.customerGroup.CustomerGroupService;
 import vn.sapo.customerGroup.dto.CreateCusGroupParam;
 import vn.sapo.customerGroup.dto.CustomerGroupResult;
 import vn.sapo.customerGroup.dto.UpdateCusGroupParam;
+import vn.sapo.customerGroup.dto.UpdateCustomerGroupParam;
 
 
 @RestController
